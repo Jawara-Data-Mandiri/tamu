@@ -214,17 +214,33 @@
                 var name = Math.round(Math.random() * 999999);
                 name = name.toString() + "_" + nama + ".txt";
 
+                var token = Math.random().toString(36).substr(2);
+
                 $.ajax({
                     type: 'POST',
                     url: 'save.php',
                     data: {
-                        photo: dataUrl, photoName: name,
+                        photo: dataUrl, photoName: name, token: token, 
                         tName: nama, tPhone: phone, 
                         tInstansi: instance, tAddress: address, 
-                        tGender: gender, tKeperluan: keperluan
+                        tGender: gender, tKeperluan: keperluan,
                     },
                     success: (res) => {
-                        alert("Success: ", res);
+                            if(res == -1) {
+                                alert("Database Error");
+                            } else if(res == 0) {
+                                alert("Query Error #2");
+                            } else if(res == 1) {
+                                alert("Tamu dengan nama itu sudah mendaftar.");
+                            } else if(res == 2) {
+                                alert("Query Error #1");
+                            } else if(res == 3) {
+                                alert("File Saving Error");
+                            } else if(res == 4) {
+                                window.location.href = "token.php";
+                            } else {
+                                alert("Unknown Error: " + res);
+                            }
                     }, 
                     error: (xhr, status, error) => {
                         alert("Error: ", xhr, ", Status: ", status);

@@ -10,6 +10,7 @@ if ($conn->connect_error) {
     echo -1;
 }
 
+//---
 $name = $_POST['tName'];
 $phone = $_POST['tPhone'];
 $instance = $_POST['tInstansi'];
@@ -18,23 +19,25 @@ $gender = $_POST['tGender'];
 $keperluan = $_POST['tKeperluan'];
 $photo = $_POST['photo'];
 $url = $_POST['photoName'];
+$token = $_POST['token'];
 
+//---
 $photo = str_replace('data:image/png;base64,', '', $photo);
 $photo = str_replace(' ', '+', $photo);
 
-if($conn->query("SELECT * FROM `tamu` WHERE name='$name' LIMIT 1")) {
-    echo("Sudah ada tamu yang memiliki nama itu.");
-} else {
-    if(file_put_contents("picture/image/" . $url, $photo)) {
-        if($conn->query("INSERT INTO `tamu` (`name`, `phone`, `instance`, `address`, `gender`, `keperluan`, `photo`) VALUES ('$name', '$phone', '$instance', '$address', '$gender', '$keperluan', '$photo')")) {
-            echo("Berhasil menyimpan data.");
-        } else {
-            echo("Error: Query Error.")
-        }
+//---
+if($result = $conn->query("SELECT * FROM `tamu` WHERE `name`='$name'")) {
+    if($result->num_rows) {
+        echo 1;
     } else {
-        echo("Error: Foto tidak tersimpan.");
+        if(file_put_contents("picture/image/" . $url, $photo)) {
+            if($conn->query("INSERT INTO `tamu` (`name`, `phone`, `instance`, `address`, `gender`, `keperluan`, `photo`, `token`) VALUES ('$name', '$phone', '$instance', '$address', '$gender', '$keperluan', '$url', '$token')")) {
+                setcookie('token', $token, time() + (86400 * 30), "/");//1 bulan akan expired
+                echo 4;
+            } else echo 0;
+        } else echo 3;
     }
-}
+} else echo 2;
 
 $conn->close();
 ?>
