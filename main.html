@@ -216,22 +216,18 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'save_pict.php',
-                    data: {photo: dataUrl, photoName: name},
-                    success: () => {
-                        $.ajax({ 
-                            type: 'POST',
-                            url: 'save.php',
-                            data: { tName: nama, tPhone: phone, tInstansi: instance, tAddress: address, tGender: gender, tKeperluan: keperluan, tPhoto: name },
-                            success: (res) => {
-                                alert(res);
-                            }, error: () => {
-                                alert('Error saving photo!');
-                            }
-                        });
+                    url: 'save.php',
+                    data: {
+                        photo: dataUrl, photoName: name,
+                        tName: nama, tPhone: phone, 
+                        tInstansi: instance, tAddress: address, 
+                        tGender: gender, tKeperluan: keperluan
+                    },
+                    success: (res) => {
+                        alert("Success: ", res);
                     }, 
-                    error: () => {
-                        alert("Error menyimpan foto");
+                    error: (xhr, status, error) => {
+                        alert("Error: ", xhr, ", Status: ", status);
                     }
                 })
                 

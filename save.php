@@ -16,17 +16,25 @@ $instance = $_POST['tInstansi'];
 $address = $_POST['tAddress'];
 $gender = $_POST['tGender'];
 $keperluan = $_POST['tKeperluan'];
-$photo = $_POST['tPhoto'];
+$photo = $_POST['photo'];
+$url = $_POST['photoName'];
 
-//datanya diubah jadi base64 biar bisa masuk database
 $photo = str_replace('data:image/png;base64,', '', $photo);
 $photo = str_replace(' ', '+', $photo);
-$photo = base64_decode($photo);
 
-$stmt = $conn->prepare("INSERT INTO `tamu` (`name`, `phone`, `instance`, `address`, `gender`, `keperluan`, `photo`) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssssssb", $name, $phone, $instance, $address, $gender, $keperluan, $photo);
-$stmt->execute();
-$stmt->close();
+if($conn->query("SELECT * FROM `tamu` WHERE name='$name' LIMIT 1")) {
+    echo("Sudah ada tamu yang memiliki nama itu.");
+} else {
+    if(file_put_contents("picture/image/" . $url, $photo)) {
+        if($conn->query("INSERT INTO `tamu` (`name`, `phone`, `instance`, `address`, `gender`, `keperluan`, `photo`) VALUES ('$name', '$phone', '$instance', '$address', '$gender', '$keperluan', '$photo')")) {
+            echo("Berhasil menyimpan data.");
+        } else {
+            echo("Error: Query Error.")
+        }
+    } else {
+        echo("Error: Foto tidak tersimpan.");
+    }
+}
 
 $conn->close();
 ?>
