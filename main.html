@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <title>Tamu Salim,</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body{
+            background-color: #678052;
+        }
+        .container1{
+            background-color: rgb(248, 247, 247);
+            min-width: 400px;
+            width: fit-content;
+            height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px black;
+            padding: 10px;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .container input, .container select{
+            display: inline-block;
+            outline: none;
+            border: 1px solid black;
+            margin-bottom: 5%;
+            padding: 10px;
+            width: 100%;
+        }
+        .container input[type="text"]{
+            width: calc(50% - 26px);
+        }
+        .container input:nth-child(1){
+            margin-top: 2.5vh;
+        }
+        .container input[type="submit"]:hover{
+            background-color: rgb(190, 190, 190);
+            cursor: pointer;
+        }
+
+        .navbar{
+            background-color: rgb(235, 235, 235);
+            width: fit-content;
+            padding: 10px;
+        }
+        .navbar::after{
+            display: inline-block;
+            position: absolute;
+            content: "";   
+            background-color: rgb(235, 235, 235);
+            width: 55px;
+            height: 55px;
+            margin-left: -17px;
+            transform: rotate(45deg) translate(-50%, -50%);
+            z-index: -1;
+        }
+        .navbar a{
+            text-decoration: none;
+            color: black;
+        }
+        .navbar a:hover{
+            color: rgb(48, 48, 48);
+        }
+        .button{
+            position: absolute;
+            right: 50%;
+            z-index: 1;
+        }
+        #capture, #cancel{
+            
+            text-decoration: none;
+            color: black;
+            background-color: white;
+            padding: 5px;
+            cursor: pointer;
+            border: 0.01px solid black;
+        }
+        #capture:hover, #cancel:hover{
+            background-color: rgb(197, 197, 197);
+        }
+        #video, #canvas{
+            width: 40vw;
+            height: 60vh;
+        }
+        .right, .left{
+            display: inline-block;
+        }
+        .right{
+            background-color: white;
+            position: absolute;
+            left: 50vw;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 40vw;
+            width: fit-content;
+            height: 60vh;
+        }
+        .left{
+            background-color: white;
+            position: absolute;
+            right: 50vw;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 39vw;
+            height: 59vh;
+            padding: 0.5vh 0.5vw;
+
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        h1{
+            width: auto;
+            text-align: center;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <h1>Buku Tamu</h1>
+            <input name="tName" type="text" placeholder="Nama Lengkap" required>
+            <input name="tPhone" type="text" placeholder="No Telepon (Whatsapp)" required>
+            <input name="tInstansi" type="text" placeholder="Asal Instansi" required>
+            <input name="tAddress" type="text" placeholder="Alamat" required>
+            <select name="tGender" required>
+                <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                <option value="Laki-Laki">Laki-Laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+            <select name="tKeperluan" required>
+                <option value="" disabled selected>Pilih Keperluan Bertamu</option>
+                <option value="Bersilaturahmi">Bersilaturahmi</option>
+                <option value="Lain-Lain">Lain-Lain</option>
+            </select>
+            <input name="tSubmit" type="submit" id="submit">
+        </div>
+        <div class="right">
+            <div class="button">
+                <button type="button" id="cancel" onclick="clicked2()">Cancel</button>
+                <button type="button" id="capture" onclick="clicked()">Capture</button>
+            </div>
+            <canvas id="canvas" style="display: none;"></canvas>
+            <video id="video"></video>
+        </div>
+    </div>
+    <div class="navbar">
+        <a href="admin.php"><b>Admin Login</b></a>
+    </div>
+</body>
+</html>
+<script>
+    var PhotoFill = false;
+    //minta akses webcam lalu masukkan realtime stream nya ke dalam element
+    navigator.getUserMedia({video: true}, (stream) => {
+        var video = document.getElementById('video');
+        video.srcObject = stream;
+        video.play();
+    }, (error) => {
+        console.log('Error: ', error);
+    });
+
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var video = document.getElementById('video');
+
+    function clicked()
+    {
+        detectWebcam((bool) => {
+            if(!bool)
+            {
+                alert("Webcam are not detected");
+                PhotoFill = false;
+            }
+            else
+            {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                PhotoFill = true;
+            }
+        });
+        
+        $("#canvas").css("display", "block");
+        $("#video").css("display", "none");
+    }
+    function clicked2()
+    {
+        $("#canvas").css("display", "none");
+        $("#video").css("display", "block");
+
+        PhotoFill = false;
+    }
+    $("#submit").click(() => {
+        if(PhotoFill)
+        {
+            if($("input[name='tName']").val() != '' && $("input[name='tPhone']").val() != '' &&
+            $("input[name='tInstansi']").val() != '' && $("input[name='tAddress']").val() != '' &&
+            $("select[name='tGender']").val() != null && $("select[name='tKeperluan']").val() != null)
+            {
+                var dataUrl = canvas.toDataURL('image/png');
+                var nama = $("input[name='tName']").val(), phone = $("input[name='tPhone']").val(), 
+                    instance = $("input[name='tInstansi']").val(), address = $("input[name='tAddress']").val(), 
+                    gender = $("select[name='tGender']").val(), keperluan = $("select[name='tKeperluan']").val();
+
+                var name = Math.round(Math.random() * 999999);
+                name = name.toString() + "_" + nama + ".txt";
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'save_pict.php',
+                    data: {photo: dataUrl, photoName: name},
+                    success: () => {
+                        $.ajax({ 
+                            type: 'POST',
+                            url: 'save.php',
+                            data: { tName: nama, tPhone: phone, tInstansi: instance, tAddress: address, tGender: gender, tKeperluan: keperluan, tPhoto: name },
+                            success: (res) => {
+                                alert(res);
+                            }, error: () => {
+                                alert('Error saving photo!');
+                            }
+                        });
+                    }, 
+                    error: () => {
+                        alert("Error menyimpan foto");
+                    }
+                })
+                
+            }
+            else alert("Tolong isi form dengan lengkap");
+        }
+        else alert("Anda memerlukan foto diri anda untuk melanjutkan.");
+    })
+
+    function detectWebcam(callback) {
+        let md = navigator.mediaDevices;
+        if (!md || !md.enumerateDevices) return callback(false);
+        md.enumerateDevices().then(devices => {
+            callback(devices.some(device => 'videoinput' === device.kind));
+        })
+    }
+</script>

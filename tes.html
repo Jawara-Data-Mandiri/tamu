@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Webcam Example</title>
+  </head>
+  <body>
+    <video id="video"></video>
+    <button id="capture">Capture</button>
+    <canvas id="canvas"></canvas>
+    <script>
+      // Minta izin akses ke webcam
+      navigator.getUserMedia({video: true}, function(stream) {
+        var video = document.getElementById('video');
+        video.srcObject = stream;
+        video.play();
+      }, function(error) {
+        console.log('Error: ', error);
+      });
+
+      // Ambil gambar dari video dan tampilkan di canvas saat tombol Capture ditekan
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+      var video = document.getElementById('video');
+
+      document.getElementById('capture').addEventListener('click', function() {
+        setTimeout(() => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        }, 2000)
+        
+      });
+    </script>
+  </body>
+</html>
