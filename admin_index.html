@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .header{
+            background-color: #678052;
+            height: 60px;
+            width: 100vw;
+        }
+        .body{
+            width: fit-content;
+            display: flex;
+        }
+        .navbar{
+            background-color: rgb(201, 201, 201);
+            height: calc(100vh - 60px);
+            width: 20vw;
+        }
+        .content{
+            background-color: rgb(255, 255, 255);
+            height: calc(100vh - 60px);
+            width: 80vw;
+            overflow: auto;
+        }
+        .header a{
+            color: white;
+            position: absolute;
+            text-decoration: none;
+            font-size: 30px;
+            margin: 15px;
+        }
+        .navbar .button{
+            background-color: rgba(0, 0, 0, 0.100);
+            text-align: center;
+            font-weight: bold;
+            width: auto;
+            margin: 2px 0;
+            padding: 15px 0;
+            cursor: pointer;
+        }
+        .navbar .button:hover{
+            background-color: rgba(0, 0, 0, 0.200);
+        }
+        .navbar .profile{
+            background-color: rgb(255, 255, 255);
+            text-align: center;
+            font-weight: bold;  
+            padding: 20px 0;
+            width: auto;
+            margin: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .navbar .profile img{
+            width: 2.5vw;
+            height: 2.5vw;
+            background-color: rgb(247, 247, 247);
+            border: 2.5px solid black;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 5px;
+        }
+        .profile-ch{
+            display: inline-block;
+            text-align: left;
+            margin-left: 5px;
+        }
+        .profile-ch div:nth-child(1){
+            text-align: center;
+        }
+        .profile-ch hr{
+            margin: 5px 0;
+        }
+        .footer{
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.100);
+            text-align: center;
+            font-weight: bold;
+            width: 20vw;
+            padding: 20px 0;
+            bottom: 0;
+            font-weight: normal;
+        }
+        .table-tamu{
+            border-collapse: collapse;
+            margin: 20px;
+            width: 90%;
+        }
+        .table-tamu td{
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid black;
+        }
+        .table-tamu tr:nth-child(1) td{
+            background-color: #678052;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#"><b>Admin Index</b></a>
+    </div>
+    <div class="body">
+        <div class="navbar">
+            <div class="profile">
+                <img src="picture/guest.png" alt="">
+                <span class="profile-ch">
+                    <div>Admin Ganteng</div><hr>
+                    <div>admin@gmail.com</div>
+                </span>
+            </div>
+            <div class="button">List tamu</div>
+            <div class="button">QR Check</div>
+            <div class="button">Log Out</div>
+            <div class="footer">
+                <h4>Project Tamu 2023</h4>
+            </div>
+        </div>
+        <div class="content">
+            <div class="list-tamu" style="display: block;">
+                <table class="table-tamu">
+                    <tr>
+                        <td>#</td>
+                        <td>Nama</td>
+                        <td>Jenis Kelamin</td>
+                        <td>Nomer Handphone</td>
+                        <td>Instansi</td>
+                        <td>Alamat</td>
+                        <td>Keperluan</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Salim</td>
+                        <td>Laki</td>
+                        <td>345345345</td>
+                        <td>Rumah</td>
+                        <td>Gang rumah</td>
+                        <td>Bersilaturahmi</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="qr-scanner" style="display: none;">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
