@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <style>
         *{
             margin: 0;
@@ -119,9 +120,9 @@
                     <div>admin@gmail.com</div>
                 </span>
             </div>
-            <div class="button">List tamu</div>
-            <div class="button">QR Check</div>
-            <div class="button">Log Out</div>
+            <div class="button tamu-button">List tamu</div>
+            <div class="button qr-button">QR Check</div>
+            <div class="button qr-logout">Log Out</div>
             <div class="footer">
                 <h4>Project Tamu 2023</h4>
             </div>
@@ -150,9 +151,21 @@
                 </table>
             </div>
             <div class="qr-scanner" style="display: none;">
-
+                qr
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(() => {
+            $(".tamu-button").click(() => {
+                $(".list-tamu").css("display", "block");
+                $(".qr-scanner").css("display", "none");
+            });
+            $(".qr-button").click(() => {
+                $(".list-tamu").css("display", "none");
+                $(".qr-scanner").css("display", "block");
+            });
+        });
+    </script>
 </body>
 </html>
