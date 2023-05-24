@@ -5,7 +5,14 @@ Enable Extension di php.ini (xampp/php/php.ini)
     
 # Demo
 User Interface:
-https://github.com/sk4-3/tamu/assets/77188249/becbe151-b71e-4075-9fdc-73ef9ac67af3
+
+
+Uploading 2023-05-24 17-15-22.mp4…
+
+
 
 Admin Function:
+
+
 Uploading 2023-05-24 17-20-06.mp4…
+
