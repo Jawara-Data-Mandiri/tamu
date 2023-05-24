@@ -39,9 +39,16 @@
     </style>
 </head>
 <body>
+    <div class="container">
     <?php
         require_once("connection.php");
         $conn = OpenMYSQL();
+        session_start();
+        
+        if(!isset($_SESSION['admin'])) {
+            header("Location: index.php");
+            exit();
+        }
 
         if(isset($_GET['token'])) {
             $token = $_GET['token'];
@@ -49,7 +56,6 @@
                 if(mysqli_num_rows($result) > 0) {
                     $row = mysqli_fetch_assoc($result);
                     ?>
-                    <div class="container">
                         <table>
                             <tr>
                                 <td>Nama:</td>
@@ -86,12 +92,14 @@
                                 <td><img class="qr" src="token_QR.php?token=<?= $token ?>" /></td>
                             </tr>   
                         </table>
-                    </div>
                     <?php
+                } else {
+                    echo("Data tamu itu tidak valid.");
                 }
             }
         }
         CloseMYSQL($conn);
     ?>
+    </div>
 </body>
 </html>
